@@ -1,0 +1,106 @@
+/*
+ * Simply Utility Bar — Front-end styles
+ * Version: 1.0.0
+ *
+ * Token system:
+ *   --sub-bg      Background color. Default: transparent.
+ *   --sub-text    Text and link color. Default: --client-nav-bg (the dark brand color),
+ *                 falls back to #2d2d2d. Transparent bg + dark text = readable on light pages.
+ *   --sub-height  Bar height. Default: 40px. Set via PHP from admin settings.
+ *
+ * Simply Client Config overrides --client-nav-text to control text color automatically.
+ * Override --sub-* individually for custom utility bar colors separate from the nav.
+ */
+
+:root {
+	--sub-bg:     transparent;
+	--sub-text:   var( --client-nav-bg, #2d2d2d );
+	--sub-height: 40px;
+}
+
+
+/* Bar — fixed, above everything, scrolls away */
+.simply-utility-bar {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	width: 100%;
+	z-index: 10000;
+	overflow: hidden;
+	background-color: var( --sub-bg );
+	color: var( --sub-text );
+	height: var( --sub-height );
+	max-height: var( --sub-height );
+	transition: max-height 0.3s ease,
+	            opacity    0.3s ease,
+	            padding    0.3s ease;
+}
+
+/* Admin bar offset */
+.admin-bar .simply-utility-bar {
+	top: 32px;
+}
+
+/* Scroll-away state — JS adds this class */
+.simply-utility-bar.scrolled-away {
+	max-height: 0 !important;
+	opacity: 0;
+	padding-top: 0 !important;
+	padding-bottom: 0 !important;
+}
+
+
+/* Inner wrapper — max-width centered, right-aligned content */
+.simply-utility-bar__inner {
+	width: 100%;
+	padding: 0 5px;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+}
+
+
+/* Menu list */
+.simply-utility-bar__menu {
+	display: flex;
+	align-items: center;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	gap: 24px;
+}
+
+.simply-utility-bar__menu li {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+/* Links and plain text items */
+.simply-utility-bar__menu a,
+.simply-utility-bar__menu .menu-item {
+	font-size: 11px;
+	font-weight: 700;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	text-decoration: none;
+	color: var( --sub-text );
+	opacity: 0.85;
+	transition: opacity 0.2s ease;
+	white-space: nowrap;
+}
+
+.simply-utility-bar__menu a:hover {
+	opacity: 1;
+	color: var( --sub-text );
+	text-decoration: none;
+}
+
+/* Separator between items — optional, add class "sub-divider" to menu item */
+.simply-utility-bar__menu .sub-divider::before {
+	content: '|';
+	margin-right: 24px;
+	opacity: 0.3;
+}
